@@ -5,6 +5,13 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ListadoComponent } from './clientes/pages/listado/listado.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: 'clientes', component: ListadoComponent, },
+  { path: '', redirectTo: 'clientes', pathMatch: 'full', },
+  { path: '**', redirectTo: 'clientes', },
+];
 
 @NgModule({
   declarations: [
@@ -14,7 +21,8 @@ import { ListadoComponent } from './clientes/pages/listado/listado.component';
     ListadoComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent]
