@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Cliente } from '../../interfaces/cliente.interface';
+import { ClienteService } from '../../services/cliente.service';
 
 
 @Component({
@@ -10,18 +12,21 @@ import { Cliente } from '../../interfaces/cliente.interface';
 })
 export class ClienteComponent implements OnInit {
 
-  //Partial<Cliente>: es un "Utility Type" de TypeScript, donde, 
-  //todas las propiedades del objeto cliente se marcarán como opcionales
-  clientePartial: Partial<Cliente> = {};
+  cliente: Cliente = { nombre: '', apellido: '', email: '' };
   titulo: string = 'Nuevo cliente';
 
-  constructor() { }
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
 
   create(): void {
-    console.log(this.clientePartial);  
+    this.clienteService.create(this.cliente)
+      .subscribe(cliente => {
+        this.router.navigate(['/clientes']);
+      });
   }
 
 }
