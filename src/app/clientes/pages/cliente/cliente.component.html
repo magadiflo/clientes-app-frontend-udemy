@@ -1,0 +1,25 @@
+<h3 class="text-center mb-4">{{ titulo }}</h3>
+<div class="card">
+    <div class="card-body">
+        <form (ngSubmit)="create()">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="clientePartial.nombre">
+                <div class="form-text text-danger">Mensaje de error</div>
+            </div>
+            <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="apellido" name="apellido"
+                    [(ngModel)]="clientePartial.apellido">
+                <div class="form-text text-danger">Mensaje de error</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name="email" [(ngModel)]="clientePartial.email">
+                <div class="form-text text-danger">Mensaje de error</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
