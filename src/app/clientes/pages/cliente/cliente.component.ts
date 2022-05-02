@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 import { Cliente } from '../../interfaces/cliente.interface';
 import { ClienteService } from '../../services/cliente.service';
 
@@ -26,6 +28,14 @@ export class ClienteComponent implements OnInit {
     this.clienteService.create(this.cliente)
       .subscribe(cliente => {
         this.router.navigate(['/clientes']);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: '¡Nuevo cliente registrado!',
+          text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
   }
 
