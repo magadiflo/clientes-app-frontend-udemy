@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { iif, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 
@@ -14,14 +16,26 @@ import { ClienteService } from '../../services/cliente.service';
 })
 export class ClienteComponent implements OnInit {
 
-  cliente: Cliente = { nombre: '', apellido: '', email: '' };
+  cliente: Cliente = this.clienteEmpty;
   titulo: string = 'Nuevo cliente';
+
+  private get clienteEmpty(): Cliente {
+    return { nombre: '', apellido: '', email: '' };
+  }
 
   constructor(
     private clienteService: ClienteService,
-    private router: Router) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params
+      .pipe(
+        switchMap(({ id }) => {
+          return iif(() => id !== undefined, this.clienteService.getCliente(id), of(this.clienteEmpty))
+        })
+      )
+      .subscribe(cliente => this.cliente = cliente);
   }
 
   create(): void {
@@ -38,5 +52,7 @@ export class ClienteComponent implements OnInit {
         });
       });
   }
+
+
 
 }

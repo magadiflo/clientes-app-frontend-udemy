@@ -13,6 +13,7 @@ import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
 const routes: Routes = [
   { path: 'clientes', component: ListadoComponent, },
   { path: 'clientes/form', component: ClienteComponent, },
+  { path: 'clientes/form/:id', component: ClienteComponent, },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];
