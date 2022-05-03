@@ -23,7 +23,13 @@ export class ClienteService {
     private router: Router) { }
 
   getClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${BASE_URL}/api/clientes`);
+    return this.http.get<Cliente[]>(`${BASE_URL}/api/clientes`)
+      .pipe(
+        map((clientes: Cliente[]) => clientes.map((cliente: Cliente) => {
+          cliente.nombre = cliente.nombre?.toUpperCase();
+          return cliente;
+        }))
+      );
   }
 
   getCliente(id: number): Observable<Cliente> {
