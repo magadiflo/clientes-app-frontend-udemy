@@ -31,4 +31,8 @@ export class ClienteService {
   update(cliente: Cliente): Observable<Cliente> {
     return this.http.put<Cliente>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente, { headers: this.httpHeaders });
   }
+
+  delete(id: number) {
+    return this.http.delete(`${BASE_URL}/api/clientes/${id}`, { headers: this.httpHeaders });
+  }
 }
