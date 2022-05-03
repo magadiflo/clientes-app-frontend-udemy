@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { Cliente } from '../interfaces/cliente.interface';
 
 const BASE_URL = environment.baseUrl;
+const BAD_REQUEST: number = 400;
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,9 @@ export class ClienteService {
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
+          if (e.status == BAD_REQUEST) {
+            return throwError(() => e);
+          }
           console.log(e);
           Swal.fire(e.error.mensaje, e.error.error, 'error');
           return throwError(() => e);
@@ -54,6 +58,9 @@ export class ClienteService {
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
+          if (e.status == BAD_REQUEST) {
+            return throwError(() => e);
+          }
           console.log(e);
           Swal.fire(e.error.mensaje, e.error.error, 'error');
           return throwError(() => e);

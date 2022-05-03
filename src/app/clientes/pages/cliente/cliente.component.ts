@@ -18,6 +18,7 @@ export class ClienteComponent implements OnInit {
 
   cliente: Cliente = this.clienteEmpty;
   titulo: string = 'Nuevo cliente';
+  errores: string[] = [];
 
   private get clienteEmpty(): Cliente {
     return { nombre: '', apellido: '', email: '' };
@@ -41,32 +42,46 @@ export class ClienteComponent implements OnInit {
   create(): void {
     this.validarCampos();
     this.clienteService.create(this.cliente)
-      .subscribe(cliente => {
-        this.router.navigate(['/clientes']);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: '¡Nuevo cliente registrado!',
-          text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
-          showConfirmButton: false,
-          timer: 2000
-        });
+      .subscribe({
+        next: cliente => {
+          this.router.navigate(['/clientes']);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '¡Nuevo cliente registrado!',
+            text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        },
+        error: e => {
+          this.errores = e.error.errors as string[];
+          console.log('Código del error desde el backend ' + e.status);
+          console.log(this.errores);
+        }
       });
   }
 
   update(): void {
     this.validarCampos();
     this.clienteService.update(this.cliente)
-      .subscribe(cliente => {
-        this.router.navigate(['/clientes']);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Cliente actualizado correctamente',
-          text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
-          showConfirmButton: false,
-          timer: 2000
-        });
+      .subscribe({
+        next: cliente => {
+          this.router.navigate(['/clientes']);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Cliente actualizado correctamente',
+            text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
+            showConfirmButton: false,
+            timer: 2000
+          });
+        },
+        error: e => {
+          this.errores = e.error.errors as string[];
+          console.log('Código del error desde el backend ' + e.status);
+          console.log(this.errores);
+        }
       });
   }
 
