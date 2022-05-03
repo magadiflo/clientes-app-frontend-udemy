@@ -27,4 +27,8 @@ export class ClienteService {
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(`${BASE_URL}/api/clientes`, cliente, { headers: this.httpHeaders });
   }
+
+  update(cliente: Cliente): Observable<Cliente> {
+    return this.http.put<Cliente>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente, { headers: this.httpHeaders });
+  }
 }

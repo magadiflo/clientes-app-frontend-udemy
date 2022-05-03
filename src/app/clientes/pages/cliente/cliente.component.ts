@@ -53,6 +53,21 @@ export class ClienteComponent implements OnInit {
       });
   }
 
+  update(): void {
+    this.clienteService.update(this.cliente)
+      .subscribe(cliente => {
+        this.router.navigate(['/clientes']);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Cliente actualizado correctamente',
+          text: `CLIENTE: ${cliente.nombre} ${cliente.apellido}`,
+          showConfirmButton: false,
+          timer: 2000
+        });
+      });
+  }
+
 
 
 }

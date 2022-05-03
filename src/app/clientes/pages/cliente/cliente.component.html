@@ -1,7 +1,7 @@
 <h3 class="text-center mb-4">{{ titulo }}</h3>
 <div class="card">
     <div class="card-body">
-        <form (ngSubmit)="create()">
+        <form>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="cliente.nombre">
@@ -19,7 +19,8 @@
                 <div class="form-text text-danger">Mensaje de error</div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" (click)="create()" *ngIf="!cliente.id" class="btn btn-success">Guardar</button>
+            <button type="button" (click)="update()" *ngIf="cliente.id" class="btn btn-warning">Actualizar</button>
         </form>
     </div>
 </div>
