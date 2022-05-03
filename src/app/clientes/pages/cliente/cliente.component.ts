@@ -39,6 +39,7 @@ export class ClienteComponent implements OnInit {
   }
 
   create(): void {
+    this.validarCampos();
     this.clienteService.create(this.cliente)
       .subscribe(cliente => {
         this.router.navigate(['/clientes']);
@@ -54,6 +55,7 @@ export class ClienteComponent implements OnInit {
   }
 
   update(): void {
+    this.validarCampos();
     this.clienteService.update(this.cliente)
       .subscribe(cliente => {
         this.router.navigate(['/clientes']);
@@ -66,6 +68,16 @@ export class ClienteComponent implements OnInit {
           timer: 2000
         });
       });
+  }
+
+  validarCampos(): void {
+    if (this.cliente.nombre?.trim() === '') {
+      delete this.cliente.nombre;
+    }
+
+    if (this.cliente.email?.trim() === '') {
+      delete this.cliente.email;
+    }
   }
 
 

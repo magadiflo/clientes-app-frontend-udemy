@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -38,14 +38,38 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(`${BASE_URL}/api/clientes`, cliente, { headers: this.httpHeaders });
+    return this.http.post<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes`, cliente, { headers: this.httpHeaders })
+      .pipe(
+        map(({ cliente }) => cliente),
+        catchError(e => {
+          console.log(e);
+          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(() => e);
+        })
+      );
   }
 
   update(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente, { headers: this.httpHeaders });
+    return this.http.put<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente, { headers: this.httpHeaders })
+      .pipe(
+        map(({ cliente }) => cliente),
+        catchError(e => {
+          console.log(e);
+          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(() => e);
+        })
+      );
   }
 
-  delete(id: number) {
-    return this.http.delete(`${BASE_URL}/api/clientes/${id}`, { headers: this.httpHeaders });
+  delete(id: number): Observable<string> {
+    return this.http.delete<{ mensaje: string, error?: string }>(`${BASE_URL}/api/clientes/${id}`, { headers: this.httpHeaders })
+      .pipe(
+        map(({ mensaje }) => mensaje),
+        catchError(e => {
+          console.log(e);
+          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(() => e);
+        })
+      );
   }
 }
