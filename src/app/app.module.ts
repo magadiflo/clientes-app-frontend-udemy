@@ -3,12 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import localePE from "@angular/common/locales/es-PE";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ListadoComponent } from './clientes/pages/listado/listado.component';
 import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
+
+registerLocaleData(localePE, 'es');
 
 const routes: Routes = [
   { path: 'clientes', component: ListadoComponent, },
