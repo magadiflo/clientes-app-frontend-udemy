@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError, map } from 'rxjs';
+import { Observable, catchError, throwError, map, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -25,6 +25,7 @@ export class ClienteService {
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${BASE_URL}/api/clientes`)
       .pipe(
+        tap((clientes: Cliente[]) => console.log(clientes)),
         map((clientes: Cliente[]) => clientes.map((cliente: Cliente) => {
           cliente.nombre = cliente.nombre?.toUpperCase();
           return cliente;
