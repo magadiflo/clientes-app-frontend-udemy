@@ -75,6 +75,10 @@ export class ClienteComponent implements OnInit {
       delete this.cliente.nombre;
     }
 
+    if (this.cliente.apellido?.trim() === '') {
+      delete this.cliente.apellido;
+    }
+
     if (this.cliente.email?.trim() === '') {
       delete this.cliente.email;
     }
