@@ -39,7 +39,13 @@
             </div>
             <div class="mb-3">
                 <label for="createAt" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="createAt" name="createAt" [(ngModel)]="cliente.createAt">
+                <div class="w-100">
+                    <input matInput [matDatepicker]="miPicker" class="form-control input-fecha" id="createAt" name="createAt"
+                        [(ngModel)]="cliente.createAt">
+                    <mat-datepicker-toggle matSuffix [for]="miPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #miPicker></mat-datepicker>
+
+                </div>
             </div>
 
             <button type="button" [disabled]="clienteForm.invalid" (click)="create()" *ngIf="!cliente.id"

@@ -6,6 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localePE from "@angular/common/locales/es-PE";
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -38,6 +42,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'es-PE' }],
   bootstrap: [AppComponent]
