@@ -37,6 +37,10 @@
                     <div *ngIf="email.errors!['email']">Debe tener un formato de email válido</div>
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="createAt" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="createAt" name="createAt" [(ngModel)]="cliente.createAt">
+            </div>
 
             <button type="button" [disabled]="clienteForm.invalid" (click)="create()" *ngIf="!cliente.id"
                 class="btn btn-success">Guardar</button>
