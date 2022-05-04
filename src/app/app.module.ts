@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ListadoComponent } from './clientes/pages/listado/listado.component';
 import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -30,6 +31,7 @@ const routes: Routes = [
     FooterComponent,
     ListadoComponent,
     ClienteComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
