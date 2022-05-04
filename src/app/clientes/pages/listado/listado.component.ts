@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../interfaces/cliente.interface';
+import { PaginacionCliente } from '../../interfaces/paginacion.interface';
 
 @Component({
   selector: 'app-listado',
@@ -15,6 +16,7 @@ export class ListadoComponent implements OnInit {
 
   clientes: Required<Cliente>[] = [];
   page: number = 0;
+  paginacionCliente!: PaginacionCliente;
 
   constructor(
     private clienteService: ClienteService,
@@ -33,7 +35,10 @@ export class ListadoComponent implements OnInit {
 
   cargarClientesPaginado() {
     this.clienteService.getClientesPaginado(this.page)
-      .subscribe(({ content }) => this.clientes = content);
+      .subscribe(paginacionCliente => {
+        this.clientes = paginacionCliente.content;
+        this.paginacionCliente = paginacionCliente;
+      });
   }
 
   delete(cliente: Cliente) {
