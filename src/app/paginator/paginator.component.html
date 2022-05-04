@@ -1,17 +1,27 @@
 <nav *ngIf="paginas.length > 0" aria-label="Paginación listado de clientes">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
+            <a class="page-link" *ngIf="hayPaginasAnteriores()"
+                [routerLink]="['/clientes', 'page', paginacionCliente.number - 1]">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
+        <li class="page-item disabled" *ngIf="!hayPaginasAnteriores()">
+            <a class="page-link">&laquo;</a>
+        </li>
+
         <li *ngFor="let pagina of paginas" class="page-item" [ngClass]="{'active': esPaginaActual(pagina)}">
             <a *ngIf="esPaginaActual(pagina)" class="page-link">{{pagina}}</a>
             <a *ngIf="!esPaginaActual(pagina)" class="page-link"
                 [routerLink]="['/clientes', 'page', pagina - 1]">{{pagina}}</a>
         </li>
+
+        <li class="page-item disabled" *ngIf="!hayPaginasSiguientes()">
+            <a class="page-link">&raquo;</a>
+        </li>
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
+            <a class="page-link" *ngIf="hayPaginasSiguientes()"
+                [routerLink]="['/clientes', 'page', paginacionCliente.number + 1]">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
