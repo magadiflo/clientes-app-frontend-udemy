@@ -21,4 +21,8 @@ export class PaginatorComponent implements OnInit {
     this.paginas = new Array(this.paginacionCliente.totalPages).fill(0).map((valor, indice) => indice + 1);
   }
 
+  esPaginaActual(pagina: number): boolean {
+    return pagina - 1 == this.paginacionCliente.number;
+  }
+
 }

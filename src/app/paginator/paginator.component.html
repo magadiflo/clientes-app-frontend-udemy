@@ -1,3 +1,19 @@
-<ul *ngIf="paginas.length > 0">
-    <li *ngFor="let pagina of paginas">{{ pagina }}</li>
-</ul>
+<nav *ngIf="paginas.length > 0" aria-label="Paginación listado de clientes">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li *ngFor="let pagina of paginas" class="page-item" [ngClass]="{'active': esPaginaActual(pagina)}">
+            <a *ngIf="esPaginaActual(pagina)" class="page-link">{{pagina}}</a>
+            <a *ngIf="!esPaginaActual(pagina)" class="page-link"
+                [routerLink]="['/clientes', 'page', pagina - 1]">{{pagina}}</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
