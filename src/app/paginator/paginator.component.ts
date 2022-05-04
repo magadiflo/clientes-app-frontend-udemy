@@ -25,11 +25,11 @@ export class PaginatorComponent implements OnInit {
     return pagina - 1 == this.paginacionCliente.number;
   }
 
-  hayPaginasAnteriores(): boolean {
+  hayPaginaAnterior(): boolean {
     return this.paginacionCliente.number > 0;
   }
 
-  hayPaginasSiguientes(): boolean {
+  hayPaginaSiguiente(): boolean {
     return this.paginacionCliente.number < this.paginacionCliente.totalPages - 1;
   }
 

@@ -1,12 +1,12 @@
 <nav *ngIf="paginas.length > 0" aria-label="Paginación listado de clientes">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" *ngIf="hayPaginasAnteriores()"
+            <a class="page-link" *ngIf="hayPaginaAnterior()"
                 [routerLink]="['/clientes', 'page', paginacionCliente.number - 1]">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item disabled" *ngIf="!hayPaginasAnteriores()">
+        <li class="page-item disabled" *ngIf="!hayPaginaAnterior()">
             <a class="page-link">&laquo;</a>
         </li>
 
@@ -16,11 +16,11 @@
                 [routerLink]="['/clientes', 'page', pagina - 1]">{{pagina}}</a>
         </li>
 
-        <li class="page-item disabled" *ngIf="!hayPaginasSiguientes()">
+        <li class="page-item disabled" *ngIf="!hayPaginaSiguiente()">
             <a class="page-link">&raquo;</a>
         </li>
         <li class="page-item">
-            <a class="page-link" *ngIf="hayPaginasSiguientes()"
+            <a class="page-link" *ngIf="hayPaginaSiguiente()"
                 [routerLink]="['/clientes', 'page', paginacionCliente.number + 1]">
                 <span aria-hidden="true">&raquo;</span>
             </a>
