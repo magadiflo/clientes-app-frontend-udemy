@@ -6,8 +6,8 @@
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item disabled" *ngIf="!hayPaginaAnterior()">
-            <a class="page-link">&laquo;</a>
+        <li class="page-item" [ngClass]="{'disabled' : paginacionCliente.first}">
+            <a [routerLink]="['/clientes', 'page', 0]" class="page-link">Primera</a>
         </li>
 
         <li *ngFor="let pagina of paginas" class="page-item" [ngClass]="{'active': esPaginaActual(pagina)}">
@@ -16,8 +16,8 @@
                 [routerLink]="['/clientes', 'page', pagina - 1]">{{pagina}}</a>
         </li>
 
-        <li class="page-item disabled" *ngIf="!hayPaginaSiguiente()">
-            <a class="page-link">&raquo;</a>
+        <li class="page-item" [ngClass]="{'disabled' : paginacionCliente.last}">
+            <a [routerLink]="['/clientes', 'page', paginacionCliente.totalPages - 1]" class="page-link">Última</a>
         </li>
         <li class="page-item">
             <a class="page-link" *ngIf="hayPaginaSiguiente()"
