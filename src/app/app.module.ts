@@ -16,6 +16,7 @@ registerLocaleData(localePE, 'es-PE');
 
 const routes: Routes = [
   { path: 'clientes', component: ListadoComponent, },
+  { path: 'clientes/page/:page', component: ListadoComponent, },
   { path: 'clientes/form', component: ClienteComponent, },
   { path: 'clientes/form/:id', component: ClienteComponent, },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },

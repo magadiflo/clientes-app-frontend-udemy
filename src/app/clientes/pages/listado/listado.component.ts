@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import Swal from 'sweetalert2';
 
 import { ClienteService } from '../../services/cliente.service';
@@ -14,10 +16,19 @@ export class ListadoComponent implements OnInit {
   clientes: Required<Cliente>[] = [];
   page: number = 0;
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.cargarClientesPaginado();
+    this.activatedRoute.paramMap
+      .subscribe(params => {
+        console.log(params);
+        if (params.has('page')) {
+          this.page = parseInt(params.get('page')!);
+        }
+        this.cargarClientesPaginado();
+      });
   }
 
   cargarClientesPaginado() {
