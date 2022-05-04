@@ -5,7 +5,8 @@ import { PaginacionCliente } from '../clientes/interfaces/paginacion.interface';
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
-  styles: [
+  styleUrls: [
+    './paginator.component.css',
   ]
 })
 export class PaginatorComponent implements OnInit {
