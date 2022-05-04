@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 
 import { environment } from '../../../environments/environment';
 import { Cliente } from '../interfaces/cliente.interface';
+import { PaginacionCliente } from '../interfaces/paginacion.interface';
 
 const BASE_URL = environment.baseUrl;
 const BAD_REQUEST: number = 400;
@@ -25,11 +26,25 @@ export class ClienteService {
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${BASE_URL}/api/clientes`)
       .pipe(
-        tap((clientes: Cliente[]) => console.log(clientes)),
+        //tap((clientes: Cliente[]) => console.log(clientes)),
         map((clientes: Cliente[]) => clientes.map((cliente: Cliente) => {
           cliente.nombre = cliente.nombre?.toUpperCase();
           return cliente;
         }))
+      );
+  }
+
+  getClientesPaginado(page: number): Observable<PaginacionCliente> {
+    return this.http.get<PaginacionCliente>(`${BASE_URL}/api/clientes/page/${page}`)
+      .pipe(
+        tap((paginacionCliente: PaginacionCliente) => console.log(paginacionCliente.content)),
+        map((paginacionCliente: PaginacionCliente) => {
+          paginacionCliente.content.map((cliente: Cliente) => {
+            cliente.nombre = cliente.nombre?.toUpperCase();
+            return cliente;
+          })
+          return paginacionCliente;
+        })
       );
   }
 

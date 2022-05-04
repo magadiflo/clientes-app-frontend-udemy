@@ -11,17 +11,18 @@ import { Cliente } from '../../interfaces/cliente.interface';
 })
 export class ListadoComponent implements OnInit {
 
-  clientes: Cliente[] = [];
+  clientes: Required<Cliente>[] = [];
+  page: number = 0;
 
   constructor(private clienteService: ClienteService) { }
 
   ngOnInit(): void {
-    this.cargarClientes();
+    this.cargarClientesPaginado();
   }
 
-  cargarClientes(): void {
-    this.clienteService.getClientes()
-      .subscribe(clientes => this.clientes = clientes);
+  cargarClientesPaginado() {
+    this.clienteService.getClientesPaginado(this.page)
+      .subscribe(({ content }) => this.clientes = content);
   }
 
   delete(cliente: Cliente) {
@@ -39,7 +40,7 @@ export class ListadoComponent implements OnInit {
         this.clienteService.delete(cliente.id!)
           .subscribe(resp => {
             console.log(resp)
-            this.cargarClientes();
+            this.cargarClientesPaginado();
             Swal.fire(
               '¡Eliminado!',
               `El cliente ${cliente.nombre} ${cliente.apellido} fue eliminado`,
