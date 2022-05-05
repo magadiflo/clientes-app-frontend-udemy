@@ -16,6 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ListadoComponent } from './clientes/pages/listado/listado.component';
 import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'clientes/page/:page', component: ListadoComponent, },
   { path: 'clientes/form', component: ClienteComponent, },
   { path: 'clientes/form/:id', component: ClienteComponent, },
+  { path: 'clientes/ver/:id', component: DetalleComponent, },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];
@@ -36,6 +38,7 @@ const routes: Routes = [
     ListadoComponent,
     ClienteComponent,
     PaginatorComponent,
+    DetalleComponent,
   ],
   imports: [
     BrowserModule,
