@@ -17,6 +17,7 @@ export class ListadoComponent implements OnInit {
   clientes: Required<Cliente>[] = [];
   page: number = 0;
   paginacionCliente!: PaginacionCliente;
+  clienteSeleccionado!: Cliente;
 
   constructor(
     private clienteService: ClienteService,
@@ -65,6 +66,10 @@ export class ListadoComponent implements OnInit {
           });
       }
     });
+  }
+
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
   }
 
 }

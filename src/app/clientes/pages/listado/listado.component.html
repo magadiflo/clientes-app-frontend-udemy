@@ -18,7 +18,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td><button type="button" [routerLink]="['/clientes', 'ver', cliente.id]" class="btn btn-sm btn-warning">{{ cliente.id }}</button></td>
+                    <td>
+                        <button type="button" (click)="abrirModal(cliente)" class="btn btn-sm btn-warning"
+                            data-bs-toggle="modal" data-bs-target="#modal-detalle-cliente">{{ cliente.id }}</button>
+                    </td>
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido | uppercase }}</td>
                     <td>{{ cliente.email }}</td>
@@ -34,5 +37,19 @@
             </tbody>
         </table>
         <app-paginator [paginacionCliente]="paginacionCliente"></app-paginator>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modal-detalle-cliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal-detalle-clienteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-detalle *ngIf="clienteSeleccionado" [cliente]="clienteSeleccionado"></app-detalle>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>

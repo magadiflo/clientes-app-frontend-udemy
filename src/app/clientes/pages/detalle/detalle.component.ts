@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
@@ -15,6 +14,7 @@ import { ClienteService } from '../../services/cliente.service';
 })
 export class DetalleComponent implements OnInit {
 
+  @Input()
   cliente!: Cliente;
   titulo: string = 'Información del cliente';
   fotoSeleccionada!: File | null;
@@ -23,21 +23,10 @@ export class DetalleComponent implements OnInit {
   @ViewChild('inputFoto')
   inputFoto!: ElementRef;
 
-  constructor(
-    private clienteService: ClienteService,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(private clienteService: ClienteService) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
-      .subscribe(params => {
-        if (params.has('id')) {
-          let id: number = parseInt(params.get('id')!);
-          this.clienteService.getCliente(id)
-            .subscribe(cliente => {
-              this.cliente = cliente;
-            });
-        }
-      });
+
   }
 
   seleccionarFoto(event: any) {

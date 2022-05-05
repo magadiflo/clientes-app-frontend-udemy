@@ -26,7 +26,6 @@ const routes: Routes = [
   { path: 'clientes/page/:page', component: ListadoComponent, },
   { path: 'clientes/form', component: ClienteComponent, },
   { path: 'clientes/form/:id', component: ClienteComponent, },
-  { path: 'clientes/ver/:id', component: DetalleComponent, },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];
