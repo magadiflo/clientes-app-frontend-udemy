@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
 
@@ -17,6 +18,7 @@ export class DetalleComponent implements OnInit {
   cliente!: Cliente;
   titulo: string = 'Información del cliente';
   fotoSeleccionada!: File | null;
+  progreso: number = 0;
 
   @ViewChild('inputFoto')
   inputFoto!: ElementRef;
@@ -43,7 +45,6 @@ export class DetalleComponent implements OnInit {
     console.log(this.fotoSeleccionada);
     if (this.fotoSeleccionada!.type.indexOf('image') < 0) {
       Swal.fire('Error Seleccionar imagen', 'El archivo debe ser del tipo imagen', 'error');
-      this.fotoSeleccionada = null;
       this._reset();
     }
   }
@@ -53,22 +54,25 @@ export class DetalleComponent implements OnInit {
       Swal.fire('Error upload', 'Debe seleccionar una foto', 'error');
     } else {
       this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id!)
-        .subscribe(cliente => {
-          this.cliente = cliente;
-          this.fotoSeleccionada = null;
-          this._reset();
-          Swal.fire(
-            'La foto se ha subido completamente!',
-            `La foto se ha subido con éxito ${this.cliente.foto}`,
-            'success');
+        .subscribe((event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progreso = Math.round((event.loaded / event.total!) * 100);
+          } else if (event.type == HttpEventType.Response) {
+            this.cliente = event.body.cliente;
+            this._reset();
+            Swal.fire(
+              'La foto se ha subido completamente!',
+              `${event.body.mensaje}`,
+              'success');
+          }
         });
     }
   }
 
   private _reset(): void {
-    console.log(this.inputFoto.nativeElement.files);
+    this.progreso = 0;
+    this.fotoSeleccionada = null;
     this.inputFoto.nativeElement.value = '';
-    console.log(this.inputFoto.nativeElement.files);
   }
 
 }

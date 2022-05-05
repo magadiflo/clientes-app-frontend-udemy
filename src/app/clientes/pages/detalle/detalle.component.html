@@ -15,6 +15,13 @@
                     <button type="button" [disabled]="!fotoSeleccionada" (click)="subirFoto()"
                         class="btn btn-warning">Subir</button>
                 </div>
+                <div *ngIf="progreso > 0" class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        attr.aria-valuenow="{{ progreso }}" aria-valuemin="0" aria-valuemax="100"
+                        aria-label="Progreso de subida de foto" [ngStyle]="{width: progreso + '%'}">
+                        {{ progreso }}%
+                    </div>
+                </div>
             </div>
             <div *ngIf="cliente" class="col-sm">
                 <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-fluid">
