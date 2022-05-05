@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import { ClienteService } from '../../services/cliente.service';
   styles: [
   ]
 })
-export class DetalleComponent implements OnInit {
+export class DetalleComponent implements OnInit, OnChanges {
 
   @Input()
   cliente!: Cliente;
@@ -24,6 +24,13 @@ export class DetalleComponent implements OnInit {
   inputFoto!: ElementRef;
 
   constructor(private clienteService: ClienteService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('OnChanges', changes);
+    if (this.inputFoto) {
+      this._reset();
+    }
+  }
 
   ngOnInit(): void {
 
