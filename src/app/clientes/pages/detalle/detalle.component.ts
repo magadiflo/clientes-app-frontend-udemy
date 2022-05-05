@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 import { Cliente } from '../../interfaces/cliente.interface';
 import { ClienteService } from '../../services/cliente.service';
 
@@ -14,6 +16,7 @@ export class DetalleComponent implements OnInit {
 
   cliente!: Cliente;
   titulo: string = 'Información del cliente';
+  private fotoSeleccionada!: File;
 
   constructor(
     private clienteService: ClienteService,
@@ -29,6 +32,23 @@ export class DetalleComponent implements OnInit {
               this.cliente = cliente;
             });
         }
+      });
+  }
+
+  seleccionarFoto(event: any) {
+    console.log(event);
+    this.fotoSeleccionada = event.target!.files[0];
+    console.log(this.fotoSeleccionada);
+  }
+
+  subirFoto() {
+    this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id!)
+      .subscribe(cliente => {
+        this.cliente = cliente;
+        Swal.fire(
+          'La foto se ha subido completamente!',
+          `La foto se ha subido con éxito ${this.cliente.foto}`,
+          'success');
       });
   }
 

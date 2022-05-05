@@ -101,4 +101,19 @@ export class ClienteService {
         })
       );
   }
+
+  subirFoto(archivo: File, id: number): Observable<Cliente> {
+    let formData = new FormData(); //Clase nativa de JavaScript
+    formData.append("archivo", archivo);
+    formData.append("id", id.toString());
+    return this.http.post<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes/upload`, formData)
+      .pipe(
+        map(({ cliente }) => cliente),
+        catchError(e => {
+          console.log(e);
+          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(() => e);
+        })
+      );
+  }
 }

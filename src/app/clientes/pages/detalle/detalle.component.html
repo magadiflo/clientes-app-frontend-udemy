@@ -1,9 +1,9 @@
 <h3 class="text-center mb-4">{{ titulo }}</h3>
 <div class="card">
     <div class="card-body">
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Subir foto</label>
-            <input class="form-control" type="file" id="formFile">
+        <div class="input-group mb-3">
+            <input type="file" (change)="seleccionarFoto($event)" class="form-control" aria-label="Foto">
+            <button type="button" (click)="subirFoto()" class="btn btn-outline-secondary">Subir</button>
         </div>
     </div>
 </div>

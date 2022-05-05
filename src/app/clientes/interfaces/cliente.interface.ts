@@ -4,4 +4,5 @@ export interface Cliente {
     apellido?: string,
     email?: string,
     createAt?: string,
+    foto?: string,
 }
