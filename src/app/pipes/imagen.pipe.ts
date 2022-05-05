@@ -10,7 +10,7 @@ const BASE_URL = environment.baseUrl;
 export class ImagenPipe implements PipeTransform {
 
   transform(img: string = ''): string {
-    return img ? `${BASE_URL}/api/uploads/img/${img}` : `assets/images/no-image.png`;
+    return img ? `${BASE_URL}/api/uploads/img/${img}` : `${BASE_URL}/images/no-image.png`;
   }
 
 }

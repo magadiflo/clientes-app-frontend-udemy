@@ -14,7 +14,7 @@
                 <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-fluid">
             </div>
             <div class="col-12">
-                <div class="input-group mb-3">
+                <div class="input-group my-2">
                     <input type="file" #inputFoto (change)="seleccionarFoto($event)" class="form-control"
                         aria-label="Foto">
                     <button type="button" [disabled]="!fotoSeleccionada" (click)="subirFoto()"

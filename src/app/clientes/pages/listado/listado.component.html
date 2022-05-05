@@ -19,8 +19,9 @@
             <tbody>
                 <tr *ngFor="let cliente of clientes">
                     <td>
-                        <button type="button" (click)="abrirModal(cliente)" class="btn btn-sm btn-warning"
-                            data-bs-toggle="modal" data-bs-target="#modal-detalle-cliente">{{ cliente.id }}</button>
+                        <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-table"
+                            (click)="abrirModal(cliente)" data-bs-toggle="modal"
+                            data-bs-target="#modal-detalle-cliente">
                     </td>
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido | uppercase }}</td>
@@ -42,7 +43,7 @@
 <!-- Modal -->
 <div class="modal fade" id="modal-detalle-cliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modal-detalle-clienteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body">
                 <app-detalle *ngIf="clienteSeleccionado" [cliente]="clienteSeleccionado"></app-detalle>
