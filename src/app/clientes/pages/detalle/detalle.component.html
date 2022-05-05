@@ -1,9 +1,22 @@
 <h3 class="text-center mb-4">{{ titulo }}</h3>
 <div class="card">
     <div class="card-body">
-        <div class="input-group mb-3">
-            <input type="file" (change)="seleccionarFoto($event)" class="form-control" aria-label="Foto">
-            <button type="button" (click)="subirFoto()" class="btn btn-outline-secondary">Subir</button>
+        <div class="row">
+            <div class="col-sm">
+                <ul *ngIf="cliente" class="list-group mb-2">
+                    <li class="list-group-item">{{ cliente.nombre }}</li>
+                    <li class="list-group-item">{{ cliente.apellido }}</li>
+                    <li class="list-group-item">{{ cliente.email }}</li>
+                    <li class="list-group-item">{{ cliente.createAt | date:'fullDate' }}</li>
+                </ul>
+                <div class="input-group mb-3">
+                    <input type="file" (change)="seleccionarFoto($event)" class="form-control" aria-label="Foto">
+                    <button type="button" (click)="subirFoto()" class="btn btn-warning">Subir</button>
+                </div>
+            </div>
+            <div *ngIf="cliente" class="col-sm">
+                <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-fluid">
+            </div>
         </div>
     </div>
 </div>
