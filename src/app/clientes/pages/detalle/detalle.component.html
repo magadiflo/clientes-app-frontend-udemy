@@ -10,8 +10,10 @@
                     <li class="list-group-item">{{ cliente.createAt | date:'fullDate' }}</li>
                 </ul>
                 <div class="input-group mb-3">
-                    <input type="file" (change)="seleccionarFoto($event)" class="form-control" aria-label="Foto">
-                    <button type="button" (click)="subirFoto()" class="btn btn-warning">Subir</button>
+                    <input type="file" #inputFoto (change)="seleccionarFoto($event)" class="form-control"
+                        aria-label="Foto">
+                    <button type="button" [disabled]="!fotoSeleccionada" (click)="subirFoto()"
+                        class="btn btn-warning">Subir</button>
                 </div>
             </div>
             <div *ngIf="cliente" class="col-sm">
