@@ -40,12 +40,18 @@
             <div class="mb-3">
                 <label for="createAt" class="form-label">Fecha</label>
                 <div class="w-100">
-                    <input matInput [matDatepicker]="miPicker" class="form-control input-fecha" id="createAt" name="createAt"
-                        [(ngModel)]="cliente.createAt">
+                    <input matInput [matDatepicker]="miPicker" class="form-control input-fecha" id="createAt"
+                        name="createAt" [(ngModel)]="cliente.createAt">
                     <mat-datepicker-toggle matSuffix [for]="miPicker"></mat-datepicker-toggle>
                     <mat-datepicker #miPicker></mat-datepicker>
 
                 </div>
+            </div>
+            <div class="mb-3">
+                <label for="region" class="form-label">Región</label>
+                <select class="form-select" id="region" name="region" [(ngModel)]="cliente.region">
+                    <option *ngFor="let region of regiones" [ngValue]="region">{{ region.nombre }}</option>
+                </select>
             </div>
 
             <button type="button" [disabled]="clienteForm.invalid" (click)="create()" *ngIf="!cliente.id"
