@@ -5,8 +5,9 @@ import { switchMap } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 
-import { Cliente } from '../../interfaces/cliente.interface';
 import { ClienteService } from '../../services/cliente.service';
+import { Cliente } from '../../interfaces/cliente.interface';
+import { Region } from '../../interfaces/region.interface';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { ClienteService } from '../../services/cliente.service';
 export class ClienteComponent implements OnInit {
 
   cliente: Cliente = this.clienteEmpty;
+  regiones: Region[] = [];
   titulo: string = 'Nuevo cliente';
   errores: string[] = [];
 
@@ -37,6 +39,12 @@ export class ClienteComponent implements OnInit {
         })
       )
       .subscribe(cliente => this.cliente = cliente);
+
+    this.clienteService.getRegiones()
+      .subscribe(regiones => {
+        console.log(regiones);
+        this.regiones = regiones;
+      });
   }
 
   create(): void {

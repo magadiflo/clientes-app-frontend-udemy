@@ -6,8 +6,9 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { environment } from '../../../environments/environment';
-import { Cliente } from '../interfaces/cliente.interface';
 import { PaginacionCliente } from '../interfaces/paginacion.interface';
+import { Cliente } from '../interfaces/cliente.interface';
+import { Region } from '../interfaces/region.interface';
 
 const BASE_URL = environment.baseUrl;
 const BAD_REQUEST: number = 400;
@@ -22,6 +23,10 @@ export class ClienteService {
   constructor(
     private http: HttpClient,
     private router: Router) { }
+
+  getRegiones(): Observable<Region[]> {
+    return this.http.get<Region[]>(`${BASE_URL}/api/clientes/regiones`);
+  }
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${BASE_URL}/api/clientes`)
