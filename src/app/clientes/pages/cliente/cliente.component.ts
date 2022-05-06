@@ -48,6 +48,7 @@ export class ClienteComponent implements OnInit {
   }
 
   create(): void {
+    console.log(this.cliente); 
     this.validarCampos();
     this.clienteService.create(this.cliente)
       .subscribe({
@@ -71,6 +72,7 @@ export class ClienteComponent implements OnInit {
   }
 
   update(): void {
+    console.log(this.cliente);  
     this.validarCampos();
     this.clienteService.update(this.cliente)
       .subscribe({
@@ -107,6 +109,8 @@ export class ClienteComponent implements OnInit {
     }
   }
 
-
+  compararRegion(o1: Region, o2: Region): boolean {
+    return o1 == null || o2 == null ? false : o1.id === o2.id;
+  }
 
 }
