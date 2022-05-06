@@ -3,8 +3,9 @@ import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
 
-import { Cliente } from '../../interfaces/cliente.interface';
 import { ClienteService } from '../../services/cliente.service';
+import { ModalService } from '../../services/modal.service';
+import { Cliente } from '../../interfaces/cliente.interface';
 
 @Component({
   selector: 'app-detalle',
@@ -23,7 +24,9 @@ export class DetalleComponent implements OnInit, OnChanges {
   @ViewChild('inputFoto')
   inputFoto!: ElementRef;
 
-  constructor(private clienteService: ClienteService) { }
+  constructor(
+    private clienteService: ClienteService,
+    private modalService: ModalService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('OnChanges', changes);
@@ -55,6 +58,9 @@ export class DetalleComponent implements OnInit, OnChanges {
             this.progreso = Math.round((event.loaded / event.total!) * 100);
           } else if (event.type == HttpEventType.Response) {
             this.cliente = event.body.cliente;
+
+            this.modalService.notificarUpload.emit(this.cliente);
+
             this._reset();
             Swal.fire(
               'La foto se ha subido completamente!',

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import Swal from 'sweetalert2';
 
 import { ClienteService } from '../../services/cliente.service';
+import { ModalService } from '../../services/modal.service';
 import { Cliente } from '../../interfaces/cliente.interface';
 import { PaginacionCliente } from '../../interfaces/paginacion.interface';
 
@@ -12,16 +14,24 @@ import { PaginacionCliente } from '../../interfaces/paginacion.interface';
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.css']
 })
-export class ListadoComponent implements OnInit {
+export class ListadoComponent implements OnInit, OnDestroy {
 
   clientes: Required<Cliente>[] = [];
   page: number = 0;
   paginacionCliente!: PaginacionCliente;
   clienteSeleccionado!: Cliente;
 
+  uploadSubscription!: Subscription;
+
   constructor(
     private clienteService: ClienteService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private modalService: ModalService) { }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+    this.uploadSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -31,6 +41,16 @@ export class ListadoComponent implements OnInit {
           this.page = parseInt(params.get('page')!);
         }
         this.cargarClientesPaginado();
+      });
+
+    this.uploadSubscription = this.modalService.notificarUpload
+      .subscribe(cliente => {
+        this.clientes = this.clientes.map(clienteOriginal => {
+          if (cliente.id == clienteOriginal.id) {
+            clienteOriginal.foto = cliente.foto;
+          }
+          return clienteOriginal;
+        });
       });
   }
 
