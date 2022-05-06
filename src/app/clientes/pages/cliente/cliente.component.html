@@ -50,6 +50,7 @@
             <div class="mb-3">
                 <label for="region" class="form-label">Región</label>
                 <select [compareWith]="compararRegion" class="form-select" id="region" name="region" [(ngModel)]="cliente.region">
+                    <option [ngValue]="undefined">--Seleccionar--</option>
                     <option *ngFor="let region of regiones" [ngValue]="region">{{ region.nombre }}</option>
                 </select>
             </div>
