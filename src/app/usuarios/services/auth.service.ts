@@ -25,7 +25,7 @@ export class AuthService {
     params.set('grant_type', 'password');
     params.set('username', usuario.username!);
     params.set('password', usuario.password!);
-
-    return this.http.post<TokenResponse>(`${BASE_URL}/oauth/token`, params, { headers: httpHeaders });
+    console.log(params.toString());//grant_type=password&username=admin&password=12345
+    return this.http.post<TokenResponse>(`${BASE_URL}/oauth/token`, params.toString(), { headers: httpHeaders });
   }
 }
