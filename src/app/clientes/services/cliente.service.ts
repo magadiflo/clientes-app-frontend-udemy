@@ -35,6 +35,10 @@ export class ClienteService {
 
   private isNoAutorizado(e: any): boolean {
     if (e.status == UNAUTHORIZED) {
+      //Puede que el token haya expirado en el backend, así que cerramos la sesión y pedimos que vuelva a loguearse
+      if(this.authService.isAuthenticated()){
+        this.authService.logout();
+      }
       this.router.navigate(['/login']);
       return true;
     }
