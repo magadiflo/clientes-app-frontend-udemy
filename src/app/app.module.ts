@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
+import { AuthGuard } from './usuarios/guards/auth.guard';
+import { ImagenPipe } from './pipes/imagen.pipe';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -17,7 +19,6 @@ import { ListadoComponent } from './clientes/pages/listado/listado.component';
 import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
-import { ImagenPipe } from './pipes/imagen.pipe';
 import { LoginComponent } from './usuarios/login/login.component';
 
 registerLocaleData(localePE, 'es-PE');
@@ -26,8 +27,18 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, },
   { path: 'clientes', component: ListadoComponent, },
   { path: 'clientes/page/:page', component: ListadoComponent, },
-  { path: 'clientes/form', component: ClienteComponent, },
-  { path: 'clientes/form/:id', component: ClienteComponent, },
+  {
+    path: 'clientes/form',
+    component: ClienteComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
+  },
+  {
+    path: 'clientes/form/:id',
+    component: ClienteComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
+  },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];
