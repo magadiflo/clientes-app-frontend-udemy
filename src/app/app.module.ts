@@ -18,10 +18,12 @@ import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
 import { ImagenPipe } from './pipes/imagen.pipe';
+import { LoginComponent } from './usuarios/login/login.component';
 
 registerLocaleData(localePE, 'es-PE');
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent, },
   { path: 'clientes', component: ListadoComponent, },
   { path: 'clientes/page/:page', component: ListadoComponent, },
   { path: 'clientes/form', component: ClienteComponent, },
@@ -40,6 +42,7 @@ const routes: Routes = [
     PaginatorComponent,
     DetalleComponent,
     ImagenPipe,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
