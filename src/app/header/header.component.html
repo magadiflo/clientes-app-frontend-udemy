@@ -2,8 +2,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" [routerLink]="['/']">Clientes App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -13,27 +14,28 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownClientes" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Clientes
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
-                        <li><a class="dropdown-item" [routerLink]="['/clientes']">Listar</a></li>
-                        <li><a class="dropdown-item"[routerLink]="['/clientes', 'form']">Nuevo</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item">
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Clientes
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownClientes">
+                            <li><a class="dropdown-item" [routerLink]="['/clientes']">Listar</a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/clientes', 'form']">Nuevo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li *ngIf="!authService.isAuthenticated()" class="nav-item">
                         <a class="nav-link" aria-current="page" [routerLink]="['/login']">Sign In</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Usuario
+                    <li *ngIf="authService.isAuthenticated()" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ authService.usuario.username}}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li><a class="dropdown-item" href="#">Salir</a></li>
+                            <li><a class="dropdown-item" href="" (click)="$event.preventDefault(); logout();">Salir</a></li>
                         </ul>
-                      </li>
+                    </li>
                 </ul>
             </div>
         </div>

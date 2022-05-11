@@ -54,6 +54,16 @@ export class AuthService {
     return this.http.post<TokenResponse>(`${BASE_URL}/oauth/token`, params.toString(), { headers: httpHeaders });
   }
 
+  logout(): void {
+    this._usuario = {};
+    this._token = "";
+    //* Por si queremos eliminar variable por variable
+    sessionStorage.removeItem(SESSION_STORAGE_USUARIO);
+    sessionStorage.removeItem(SESSION_STORAGE_TOKEN);
+    //* Otra forma es, eliminanado todas las variables en una sola línea
+    sessionStorage.clear();
+  }
+
   guardarUsuario(access_token: string): void {
     let payload = this.obtenerPayloadToken(access_token);
     console.log('guardarUsuario()', payload);
@@ -72,7 +82,7 @@ export class AuthService {
   }
 
   obtenerPayloadToken(access_token: string): Payload | null {
-    if (access_token != null && access_token != "") {      
+    if (access_token != null && access_token != "") {
       return JSON.parse(atob(access_token.split('.')[1]));
     }
     return null;
