@@ -92,4 +92,8 @@ export class AuthService {
     let payload = this.obtenerPayloadToken(this.token);
     return payload != null && payload.user_name != null && payload.user_name.length > 0;
   }
+
+  hasRole(role: string): boolean {
+    return this.usuario.roles?.includes(role)!;
+  }
 }

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { ClienteService } from '../../services/cliente.service';
 import { ModalService } from '../../services/modal.service';
 import { Cliente } from '../../interfaces/cliente.interface';
+import { AuthService } from '../../../usuarios/services/auth.service';
 
 @Component({
   selector: 'app-detalle',
@@ -26,7 +27,8 @@ export class DetalleComponent implements OnInit, OnChanges {
 
   constructor(
     private clienteService: ClienteService,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    public authService: AuthService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('OnChanges', changes);

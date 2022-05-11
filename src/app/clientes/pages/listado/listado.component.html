@@ -7,18 +7,18 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th *ngIf="authService.hasRole('ROLE_USER')">#</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Fecha</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th *ngIf="authService.hasRole('ROLE_ADMIN')">Editar</th>
+                    <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td>
+                    <td *ngIf="authService.hasRole('ROLE_USER')">
                         <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-table"
                             (click)="abrirModal(cliente)" data-bs-toggle="modal"
                             data-bs-target="#modal-detalle-cliente">
@@ -27,11 +27,11 @@
                     <td>{{ cliente.apellido | uppercase }}</td>
                     <td>{{ cliente.email }}</td>
                     <td>{{ cliente.createAt | date:'EEEE dd, MMMM yyyy'}}</td>
-                    <td>
+                    <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                         <button type="button" [routerLink]="['/clientes', 'form', cliente.id]"
                             class="btn btn-primary btn-sm">editar</button>
                     </td>
-                    <td>
+                    <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                         <button type="button" (click)="delete(cliente)" class="btn btn-danger btn-sm">eliminar</button>
                     </td>
                 </tr>

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import Swal from 'sweetalert2';
 
+import { AuthService } from '../../../usuarios/services/auth.service';
 import { ClienteService } from '../../services/cliente.service';
 import { ModalService } from '../../services/modal.service';
 import { Cliente } from '../../interfaces/cliente.interface';
@@ -26,7 +27,8 @@ export class ListadoComponent implements OnInit, OnDestroy {
   constructor(
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    public authService: AuthService) { }
 
   ngOnDestroy(): void {
     console.log('ngOnDestroy');
