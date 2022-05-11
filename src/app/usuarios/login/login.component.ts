@@ -5,7 +5,8 @@ import Swal from 'sweetalert2';
 
 import { AuthService } from '../services/auth.service';
 import { Usuario } from '../interfaces/usuario.interface';
-import { Payload } from '../interfaces/auth.interface';
+
+const BAD_REQUEST: number = 400;
 
 @Component({
   selector: 'app-login',
@@ -26,18 +27,25 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.usuario.username == null || this.usuario.password == null) {
-      Swal.fire('Error Login', 'Usuario o password incorrectos', 'error');
+      Swal.fire('Error Login', 'Usuario o password incorrectos!!!!', 'error');
       return;
     }
     this.authService.login(this.usuario)
-      .subscribe(resp => {
-        console.log(resp);
+      .subscribe({
+        next: resp => {
+          console.log(resp);
 
-        this.authService.guardarUsuario(resp.access_token);
-        this.authService.guardarToken(resp.access_token);
+          this.authService.guardarUsuario(resp.access_token);
+          this.authService.guardarToken(resp.access_token);
 
-        this.router.navigate(['/clientes']);
-        Swal.fire('Login', `Hola ${this.authService.usuario.username}, has iniciado sesión con éxito!`, 'success');
+          this.router.navigate(['/clientes']);
+          Swal.fire('Login', `Hola ${this.authService.usuario.username}, has iniciado sesión con éxito!`, 'success');
+        },
+        error: err => {
+          if (err.status == BAD_REQUEST) {
+            Swal.fire('Error Login', '¡Usuario o password incorrectos!', 'error');
+          }
+        }
       });
   }
 

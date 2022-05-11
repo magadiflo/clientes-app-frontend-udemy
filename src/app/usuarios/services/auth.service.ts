@@ -15,7 +15,7 @@ const SESSION_STORAGE_TOKEN = 'token';
 })
 export class AuthService {
 
-  private _usuario!: Usuario;
+  private _usuario: Usuario = {};
   private _token: string = "";
 
   constructor(private http: HttpClient) { }
@@ -57,6 +57,8 @@ export class AuthService {
 
   guardarUsuario(access_token: string): void {
     let payload = this.obtenerPayloadToken(access_token);
+    console.log('guardarUsuario()', payload);
+    
     this._usuario.nombre = payload?.nombre;
     this._usuario.apellido = payload?.apellido;
     this._usuario.email = payload?.email;
