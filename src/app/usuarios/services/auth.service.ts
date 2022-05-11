@@ -20,7 +20,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-
   public get usuario(): Usuario {
     if (this._usuario != null) {
       return this._usuario;
@@ -58,7 +57,7 @@ export class AuthService {
   guardarUsuario(access_token: string): void {
     let payload = this.obtenerPayloadToken(access_token);
     console.log('guardarUsuario()', payload);
-    
+
     this._usuario.nombre = payload?.nombre;
     this._usuario.apellido = payload?.apellido;
     this._usuario.email = payload?.email;
@@ -73,9 +72,14 @@ export class AuthService {
   }
 
   obtenerPayloadToken(access_token: string): Payload | null {
-    if (access_token != null) {
+    if (access_token != null && access_token != "") {      
       return JSON.parse(atob(access_token.split('.')[1]));
     }
     return null;
+  }
+
+  isAuthenticated(): boolean {
+    let payload = this.obtenerPayloadToken(this.token);
+    return payload != null && payload.user_name != null && payload.user_name.length > 0;
   }
 }
