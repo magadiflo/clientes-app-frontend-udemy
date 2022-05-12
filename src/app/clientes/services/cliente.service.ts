@@ -21,22 +21,15 @@ const FORBIDDEN: number = 403;
 })
 export class ClienteService {
 
-  private httpHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService) { }
 
-  private agregarAuthorizationHeader(): HttpHeaders {
-    let token: string = this.authService.token;
-    return token != "" ? this.httpHeaders.append('Authorization', `Bearer ${token}`) : this.httpHeaders;
-  }
-
   private isNoAutorizado(e: any): boolean {
     if (e.status == UNAUTHORIZED) {
       //Puede que el token haya expirado en el backend, así que cerramos la sesión y pedimos que vuelva a loguearse
-      if(this.authService.isAuthenticated()){
+      if (this.authService.isAuthenticated()) {
         this.authService.logout();
       }
       this.router.navigate(['/login']);
@@ -51,7 +44,7 @@ export class ClienteService {
   }
 
   getRegiones(): Observable<Region[]> {
-    return this.http.get<Region[]>(`${BASE_URL}/api/clientes/regiones`, { headers: this.agregarAuthorizationHeader() })
+    return this.http.get<Region[]>(`${BASE_URL}/api/clientes/regiones`)
       .pipe(
         catchError((e: any) => {
           this.isNoAutorizado(e);
@@ -86,7 +79,7 @@ export class ClienteService {
   }
 
   getCliente(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${BASE_URL}/api/clientes/${id}`, { headers: this.agregarAuthorizationHeader() })
+    return this.http.get<Cliente>(`${BASE_URL}/api/clientes/${id}`)
       .pipe(
         catchError(e => {
           if (this.isNoAutorizado(e)) {
@@ -101,7 +94,7 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes`, cliente, { headers: this.agregarAuthorizationHeader() })
+    return this.http.post<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes`, cliente)
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
@@ -119,7 +112,7 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<Cliente> {
-    return this.http.put<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente, { headers: this.agregarAuthorizationHeader() })
+    return this.http.put<{ cliente: Cliente, mensaje: string }>(`${BASE_URL}/api/clientes/${cliente.id}`, cliente)
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
@@ -137,7 +130,7 @@ export class ClienteService {
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete<{ mensaje: string, error?: string }>(`${BASE_URL}/api/clientes/${id}`, { headers: this.agregarAuthorizationHeader() })
+    return this.http.delete<{ mensaje: string, error?: string }>(`${BASE_URL}/api/clientes/${id}`)
       .pipe(
         map(({ mensaje }) => mensaje),
         catchError(e => {
@@ -156,17 +149,8 @@ export class ClienteService {
     formData.append("archivo", archivo);
     formData.append("id", id.toString());
 
-    //Como estamos enviando un tipo FormData, y no un tipo Application/json
-    //debemos crear una nueva instancia del HttpHeaders
-    let httpHeaders = new HttpHeaders();
-    let token = this.authService.token;
-    if (token != "") {
-      httpHeaders = httpHeaders.append('Authorization', `Bearer ${token}`);
-    }
-
     const req = new HttpRequest('POST', `${BASE_URL}/api/clientes/upload`, formData, {
       reportProgress: true,
-      headers: httpHeaders,
     });
 
     return this.http.request(req)

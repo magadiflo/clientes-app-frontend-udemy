@@ -1,6 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
@@ -21,6 +21,7 @@ import { ClienteComponent } from './clientes/pages/cliente/cliente.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login/login.component';
+import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -67,7 +68,10 @@ const routes: Routes = [
     MatDatepickerModule,
     MatMomentDateModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'es-PE' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-PE' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
