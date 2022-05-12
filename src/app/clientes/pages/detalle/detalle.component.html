@@ -30,5 +30,30 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="cliente.facturas?.length == 0" class="alert alert-info my-4">
+            No hay facturas asignadas para el cliente {{ cliente.nombre }} {{cliente.apellido }}
+        </div>
+        <div *ngIf="!(cliente.facturas?.length == 0)" class="row">
+            <div class="col">
+                <table class="table table-bordered table-striped my-4">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let factura of cliente.facturas">
+                            <td>{{ factura.id }}</td>
+                            <td>{{ factura.descripcion }}</td>
+                            <td>{{ factura.createAt }}</td>
+                            <td>{{ factura.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -7,7 +7,8 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th *ngIf="authService.hasRole('ROLE_USER')">#</th>
+                    <!-- <th *ngIf="authService.hasRole('ROLE_USER')">#</th> -->
+                    <th>#</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
@@ -18,7 +19,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td *ngIf="authService.hasRole('ROLE_USER')">
+                    <!-- <td *ngIf="authService.hasRole('ROLE_USER')">
+                        <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-table"
+                            (click)="abrirModal(cliente)" data-bs-toggle="modal"
+                            data-bs-target="#modal-detalle-cliente">
+                    </td> -->
+                    <td>
                         <img src="{{ cliente.foto | imagen }}" alt="{{ cliente.nombre }}" class="img-table"
                             (click)="abrirModal(cliente)" data-bs-toggle="modal"
                             data-bs-target="#modal-detalle-cliente">
