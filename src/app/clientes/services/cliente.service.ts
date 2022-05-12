@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError, map, tap } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import Swal from 'sweetalert2';
-
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../../usuarios/services/auth.service';
 import { PaginacionCliente } from '../interfaces/paginacion.interface';
 import { Cliente } from '../interfaces/cliente.interface';
 import { Region } from '../interfaces/region.interface';
@@ -14,7 +11,6 @@ import { Region } from '../interfaces/region.interface';
 const BASE_URL = environment.baseUrl;
 const BAD_REQUEST: number = 400;
 const UNAUTHORIZED: number = 401;
-const FORBIDDEN: number = 403;
 
 @Injectable({
   providedIn: 'root'
@@ -23,34 +19,10 @@ export class ClienteService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private authService: AuthService) { }
-
-  private isNoAutorizado(e: any): boolean {
-    if (e.status == UNAUTHORIZED) {
-      //Puede que el token haya expirado en el backend, así que cerramos la sesión y pedimos que vuelva a loguearse
-      if (this.authService.isAuthenticated()) {
-        this.authService.logout();
-      }
-      this.router.navigate(['/login']);
-      return true;
-    }
-    if (e.status == FORBIDDEN) {
-      Swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso`, 'warning');
-      this.router.navigate(['/clientes']);
-      return true;
-    }
-    return false;
-  }
+    private router: Router) { }
 
   getRegiones(): Observable<Region[]> {
-    return this.http.get<Region[]>(`${BASE_URL}/api/clientes/regiones`)
-      .pipe(
-        catchError((e: any) => {
-          this.isNoAutorizado(e);
-          return throwError(() => e);
-        })
-      );
+    return this.http.get<Region[]>(`${BASE_URL}/api/clientes/regiones`);
   }
 
   getClientes(): Observable<Cliente[]> {
@@ -82,12 +54,10 @@ export class ClienteService {
     return this.http.get<Cliente>(`${BASE_URL}/api/clientes/${id}`)
       .pipe(
         catchError(e => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(() => e);
+          if (e.status != UNAUTHORIZED && e.error.mensaje) {
+            this.router.navigate(['/clientes']);
+            console.log(e.error.mensaje);
           }
-          console.log(e);
-          this.router.navigate(['/clientes']);
-          Swal.fire('Error al obtener el cliente', e.error.mensaje, 'error');
           return throwError(() => e);
         })
       );
@@ -98,14 +68,12 @@ export class ClienteService {
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(() => e);
-          }
           if (e.status == BAD_REQUEST) {
             return throwError(() => e);
           }
-          console.log(e);
-          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          if (e.error.mensaje) {
+            console.log(e.error.mensaje);
+          }
           return throwError(() => e);
         })
       );
@@ -116,14 +84,12 @@ export class ClienteService {
       .pipe(
         map(({ cliente }) => cliente),
         catchError(e => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(() => e);
-          }
           if (e.status == BAD_REQUEST) {
             return throwError(() => e);
           }
-          console.log(e);
-          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          if (e.error.mensaje) {
+            console.log(e.error.mensaje);
+          }
           return throwError(() => e);
         })
       );
@@ -134,11 +100,9 @@ export class ClienteService {
       .pipe(
         map(({ mensaje }) => mensaje),
         catchError(e => {
-          if (this.isNoAutorizado(e)) {
-            return throwError(() => e);
+          if (e.error.mensaje) {
+            console.log(e.error.mensaje);
           }
-          console.log(e);
-          Swal.fire(e.error.mensaje, e.error.error, 'error');
           return throwError(() => e);
         })
       );
@@ -159,7 +123,6 @@ export class ClienteService {
           //** Al redireccionar queda el fondo del modal, con esto lo eliminamos
           document.getElementsByClassName('modal-backdrop')[0].remove();
           console.log('Error al subir la foto', e);
-          this.isNoAutorizado(e);
           return throwError(() => e);
         })
       );

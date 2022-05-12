@@ -22,6 +22,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login/login.component';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
+import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -71,6 +72,7 @@ const routes: Routes = [
   providers: [
     { provide: LOCALE_ID, useValue: 'es-PE' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
