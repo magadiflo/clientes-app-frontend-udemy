@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AuthGuard } from './usuarios/guards/auth.guard';
+import { RoleGuard } from './usuarios/guards/role.guard';
 import { ImagenPipe } from './pipes/imagen.pipe';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -30,14 +31,16 @@ const routes: Routes = [
   {
     path: 'clientes/form',
     component: ClienteComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     canLoad: [AuthGuard],
+    data: { role: 'ROLE_ADMIN' },
   },
   {
     path: 'clientes/form/:id',
     component: ClienteComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     canLoad: [AuthGuard],
+    data: { role: 'ROLE_ADMIN' },
   },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },

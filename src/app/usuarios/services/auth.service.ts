@@ -15,7 +15,7 @@ const SESSION_STORAGE_TOKEN = 'token';
 })
 export class AuthService {
 
-  private _usuario: Usuario = {};
+  private _usuario!: Usuario;
   private _token: string = "";
 
   constructor(private http: HttpClient) { }
@@ -24,15 +24,15 @@ export class AuthService {
     if (this._usuario != null) {
       return this._usuario;
     } else if (this._usuario == null && sessionStorage.getItem(SESSION_STORAGE_USUARIO) != null) {
-      this._usuario = <Usuario>JSON.parse(sessionStorage.getItem(SESSION_STORAGE_USUARIO)!);
+      return this._usuario = <Usuario>JSON.parse(sessionStorage.getItem(SESSION_STORAGE_USUARIO)!);
     }
     return {};
   }
 
   public get token(): string {
-    if (this._token != null) {
+    if (this._token != "") {
       return this._token;
-    } else if (this._token == null && sessionStorage.getItem(SESSION_STORAGE_TOKEN) != null) {
+    } else if (this._token == "" && sessionStorage.getItem(SESSION_STORAGE_TOKEN) != null) {
       this._token = sessionStorage.getItem(SESSION_STORAGE_TOKEN)!;
       return this._token;
     }
@@ -67,7 +67,7 @@ export class AuthService {
   guardarUsuario(access_token: string): void {
     let payload = this.obtenerPayloadToken(access_token);
     console.log('guardarUsuario()', payload);
-
+    this._usuario = {};
     this._usuario.nombre = payload?.nombre;
     this._usuario.apellido = payload?.apellido;
     this._usuario.email = payload?.email;
