@@ -23,6 +23,7 @@ import { DetalleComponent } from './clientes/pages/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login/login.component';
 import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
 import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
+import { DetalleFacturaComponent } from './facturas/pages/detalle-factura/detalle-factura.component';
 
 registerLocaleData(localePE, 'es-PE');
 
@@ -44,6 +45,7 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     data: { role: 'ROLE_ADMIN' },
   },
+  { path: 'facturas/:id', component: DetalleFacturaComponent },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];
@@ -59,6 +61,7 @@ const routes: Routes = [
     DetalleComponent,
     ImagenPipe,
     LoginComponent,
+    DetalleFacturaComponent,
   ],
   imports: [
     BrowserModule,
