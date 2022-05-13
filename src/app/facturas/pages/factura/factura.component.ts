@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { switchMap } from 'rxjs/operators';
 import { Observable, of, map } from 'rxjs';
@@ -9,6 +10,7 @@ import { ClienteService } from '../../../clientes/services/cliente.service';
 import { FacturaService } from '../../services/factura.service';
 import { Factura } from '../../interfaces/factura.interface';
 import { Producto } from '../../interfaces/producto.interface';
+import { ItemFactura } from '../../interfaces/item-factura.interface';
 
 
 @Component({
@@ -58,6 +60,23 @@ export class FacturaComponent implements OnInit {
 
   mostrarNombre(producto: Producto): string {
     return producto ? producto.nombre! : '';
+  }
+
+  seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
+    let producto: Producto = <Producto>event.option.value;
+
+    let nuevoItem: ItemFactura = {};
+    nuevoItem.producto = producto;
+    nuevoItem.cantidad = 1;
+
+    if (this.factura.items === undefined) {
+      this.factura.items = [];
+    }
+    this.factura.items!.push(nuevoItem);
+
+    this.autocompleteControl.setValue('');
+    event.option.focus();
+    event.option.deselect();
   }
 
 }
