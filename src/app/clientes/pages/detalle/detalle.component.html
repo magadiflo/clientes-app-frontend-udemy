@@ -33,6 +33,9 @@
         <div *ngIf="cliente.facturas?.length == 0" class="alert alert-info my-4">
             No hay facturas asignadas para el cliente {{ cliente.nombre }} {{cliente.apellido }}
         </div>
+        <div class="row">
+            <button type="button" [routerLink]="['/facturas', 'form', cliente.id]" class="btn btn-success btn-sm">crear factura</button>
+        </div>
         <div *ngIf="!(cliente.facturas?.length == 0)" class="row">
             <div class="col">
                 <table class="table table-bordered table-striped my-4">
