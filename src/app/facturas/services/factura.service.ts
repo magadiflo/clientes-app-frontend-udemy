@@ -10,7 +10,7 @@ const BASE_URL = environment.baseUrl;
 @Injectable({
   providedIn: 'root'
 })
-export class FacturasService {
+export class FacturaService {
 
   constructor(private http: HttpClient) { }
 
