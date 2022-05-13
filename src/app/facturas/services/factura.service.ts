@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Factura } from '../interfaces/factura.interface';
+import { Producto } from '../interfaces/producto.interface';
 
 const BASE_URL = environment.baseUrl;
 
@@ -20,5 +21,9 @@ export class FacturaService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${BASE_URL}/api/facturas/${id}`);
+  }
+
+  filtrarProductos(termino: string): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${BASE_URL}/api/facturas/filtrar-productos/${termino}`);
   }
 }
