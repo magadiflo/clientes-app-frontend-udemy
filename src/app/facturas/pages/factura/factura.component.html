@@ -1,1 +1,28 @@
-<p>factura works!</p>
+<div *ngIf="factura" class="card">
+    <div class="card-header">
+        {{ titulo }}: {{ factura.descripcion }}
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a [routerLink]="['/clientes']" class="btn btn-light btn-sm">&laquo; volver</a>
+        </h4>
+        <form #clienteForm="ngForm">
+            <div class="mb-3">
+                <label for="cliente" class="form-label">Cliente</label>
+                <input type="text" id="cliente" [value]="factura.cliente?.nombre + ' ' + factura.cliente?.apellido"
+                    class="form-control" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion"
+                    [(ngModel)]="factura.descripcion">
+            </div>
+            <div class="mb-3">
+                <label for="observacion" class="form-label">Observación</label>
+                <textarea class="form-control" id="observacion" name="observacion"
+                    [(ngModel)]="factura.observacion"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Crear factura</button>
+        </form>
+    </div>
+</div>
