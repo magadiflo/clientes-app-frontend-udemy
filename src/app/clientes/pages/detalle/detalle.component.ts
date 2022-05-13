@@ -3,10 +3,12 @@ import { HttpEventType } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
 
+import { FacturaService } from '../../../facturas/services/factura.service';
+import { AuthService } from '../../../usuarios/services/auth.service';
 import { ClienteService } from '../../services/cliente.service';
 import { ModalService } from '../../services/modal.service';
 import { Cliente } from '../../interfaces/cliente.interface';
-import { AuthService } from '../../../usuarios/services/auth.service';
+import { Factura } from '../../../facturas/interfaces/factura.interface';
 
 @Component({
   selector: 'app-detalle',
@@ -28,7 +30,8 @@ export class DetalleComponent implements OnInit, OnChanges {
   constructor(
     private clienteService: ClienteService,
     private modalService: ModalService,
-    public authService: AuthService) { }
+    public authService: AuthService,
+    private facturaService: FacturaService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('OnChanges', changes);
@@ -79,4 +82,28 @@ export class DetalleComponent implements OnInit, OnChanges {
     this.inputFoto.nativeElement.value = '';
   }
 
+  delete(factura: Factura) {
+    Swal.fire({
+      title: `¿Seguro que quiere eliminar?`,
+      text: `¡Atención! La factura '${factura.descripcion}' será eliminado`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.facturaService.delete(factura.id!)
+          .subscribe(resp => {
+            this.cliente.facturas = this.cliente.facturas?.filter(fac => fac != factura);
+            Swal.fire(
+              '¡Eliminado!',
+              `La factura '${factura.descripcion}' fue eliminado`,
+              'success',
+            );
+          });
+      }
+    });
+  }
 }

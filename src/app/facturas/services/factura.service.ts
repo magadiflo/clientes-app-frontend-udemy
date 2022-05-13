@@ -17,4 +17,8 @@ export class FacturaService {
   getFactura(id: number): Observable<Factura> {
     return this.http.get<Factura>(`${BASE_URL}/api/facturas/${id}`);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${BASE_URL}/api/facturas/${id}`);
+  }
 }
