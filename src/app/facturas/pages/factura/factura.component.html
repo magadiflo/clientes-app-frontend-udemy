@@ -49,7 +49,9 @@
                         <tr *ngFor="let item of factura.items">
                             <td>{{ item.producto?.nombre }}</td>
                             <td>{{ item.producto?.precio }}</td>
-                            <td>{{ item.cantidad }}</td>
+                            <td><input type="number" [value]="item.cantidad"
+                                    (change)="actualizarCantidad(item.producto!.id!, $event)" class="form-control"
+                                    aria-label="Cantidad"></td>
                             <td>{{ item.cantidad! * item.producto?.precio! }}</td>
                         </tr>
                     </tbody>
