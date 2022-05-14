@@ -33,8 +33,10 @@
         <div *ngIf="cliente.facturas?.length == 0" class="alert alert-info my-4">
             No hay facturas asignadas para el cliente {{ cliente.nombre }} {{cliente.apellido }}
         </div>
-        <div class="row">
-            <button type="button" [routerLink]="['/facturas', 'form', cliente.id]" class="btn btn-success btn-sm">crear factura</button>
+        <div *ngIf="authService.hasRole('ROLE_ADMIN')" class="row">
+            <button type="button" [routerLink]="['/facturas', 'form', cliente.id]" class="btn btn-success btn-sm">
+                crear factura
+            </button>
         </div>
         <div *ngIf="!(cliente.facturas?.length == 0)" class="row">
             <div class="col">
@@ -46,7 +48,7 @@
                             <th>Fecha</th>
                             <th>Total</th>
                             <th>Detalle</th>
-                            <th>Eliminar</th>
+                            <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,8 +57,17 @@
                             <td>{{ factura.descripcion }}</td>
                             <td>{{ factura.createAt }}</td>
                             <td>{{ factura.total }}</td>
-                            <td><button type="button" class="btn btn-primary btn-sm" [routerLink]="['/facturas', factura.id]">ver</button></td>
-                            <td><button type="button" class="btn btn-danger btn-sm" (click)="delete(factura)">eliminar</button></td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    [routerLink]="['/facturas', factura.id]">
+                                    ver
+                                </button>
+                            </td>
+                            <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="delete(factura)">
+                                    eliminar
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -49,8 +49,20 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     data: { role: 'ROLE_ADMIN' },
   },
-  { path: 'facturas/:id', component: DetalleFacturaComponent },
-  { path: 'facturas/form/:clienteId', component: FacturaComponent },
+  { 
+    path: 'facturas/:id', 
+    component: DetalleFacturaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    canLoad: [AuthGuard],
+    data: { role: 'ROLE_USER' },
+  },
+  { 
+    path: 'facturas/form/:clienteId', 
+    component: FacturaComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    canLoad: [AuthGuard],
+    data: { role: 'ROLE_ADMIN' },
+  },
   { path: '', redirectTo: 'clientes', pathMatch: 'full', },
   { path: '**', redirectTo: 'clientes', },
 ];

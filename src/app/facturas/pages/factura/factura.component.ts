@@ -35,6 +35,12 @@ export class FacturaComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    //** Al redireccionar (botón crear factura del modal) queda el fondo del modal, con esto lo eliminamos
+    const fondoModal = document.getElementsByClassName('modal-backdrop');
+    if (fondoModal.length > 0) {
+      fondoModal[0].remove();
+    }
+
     this.activatedRoute.paramMap
       .pipe(
         switchMap(params => this.clienteService.getCliente(parseInt(params.get('clienteId')!)))
