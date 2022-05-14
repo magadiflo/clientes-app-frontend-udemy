@@ -6,7 +6,7 @@
         <h4 class="card-title">
             <a [routerLink]="['/clientes']" class="btn btn-light btn-sm">&laquo; volver</a>
         </h4>
-        <form #clienteForm="ngForm">
+        <form (ngSubmit)="create()">
             <div class="mb-3">
                 <label for="cliente" class="form-label">Cliente</label>
                 <input type="text" id="cliente" [value]="factura.cliente?.nombre + ' ' + factura.cliente?.apellido"

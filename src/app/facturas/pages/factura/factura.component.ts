@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { switchMap } from 'rxjs/operators';
 import { Observable, of, map } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { ClienteService } from '../../../clientes/services/cliente.service';
 import { FacturaService } from '../../services/factura.service';
@@ -25,13 +26,13 @@ export class FacturaComponent implements OnInit {
   factura!: Factura;
 
   autocompleteControl = new FormControl();
-  productos: string[] = ['Mesa', 'Monitor', 'Sony', 'TV LG'];
   productosFiltrados!: Observable<Producto[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
-    private facturaService: FacturaService) { }
+    private facturaService: FacturaService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -129,6 +130,16 @@ export class FacturaComponent implements OnInit {
       total += this.calcularImporte(item);
     });
     return total;
+  }
+
+  create(): void {
+    console.log('Factura a guardar...', this.factura);
+    this.facturaService.create(this.factura)
+      .subscribe((resp: Factura) => {
+        Swal.fire(this.titulo, `Factura ${resp.descripcion} creada con éxito!`, 'success');
+        console.log('Factura Guardada....', resp);
+        this.router.navigate(['/clientes']);
+      });
   }
 
 }
