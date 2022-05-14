@@ -6,7 +6,7 @@
         <h4 class="card-title">
             <a [routerLink]="['/clientes']" class="btn btn-light btn-sm">&laquo; volver</a>
         </h4>
-        <form (ngSubmit)="create()">
+        <form (ngSubmit)="create(facturaForm)" #facturaForm="ngForm">
             <div class="mb-3">
                 <label for="cliente" class="form-label">Cliente</label>
                 <input type="text" id="cliente" [value]="factura.cliente?.nombre + ' ' + factura.cliente?.apellido"
@@ -15,7 +15,11 @@
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
                 <input type="text" class="form-control" id="descripcion" name="descripcion"
-                    [(ngModel)]="factura.descripcion">
+                    [(ngModel)]="factura.descripcion" required #descripcion="ngModel">
+                <div class="alert alert-danger"
+                    *ngIf="descripcion.invalid && descripcion.touched || descripcion.invalid && facturaForm.submitted">
+                    La descripción es requerida
+                </div>
             </div>
             <div class="mb-3">
                 <label for="observacion" class="form-label">Observación</label>
@@ -34,6 +38,9 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+                <div class="alert alert-danger" *ngIf="autocompleteControl.invalid && facturaForm.submitted">
+                    La factura debe tener al menmos un item.
+                </div>
             </div>
             <div *ngIf="(factura.items == undefined) || factura.items.length == 0" class="alert alert-info my-4">
                 No hay items asignadas para la factura. Debe agregar almenos una!

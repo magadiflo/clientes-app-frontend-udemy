@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { switchMap } from 'rxjs/operators';
@@ -132,14 +132,19 @@ export class FacturaComponent implements OnInit {
     return total;
   }
 
-  create(): void {
+  create(facturaForm: NgForm): void {
     console.log('Factura a guardar...', this.factura);
-    this.facturaService.create(this.factura)
-      .subscribe((resp: Factura) => {
-        Swal.fire(this.titulo, `Factura ${resp.descripcion} creada con éxito!`, 'success');
-        console.log('Factura Guardada....', resp);
-        this.router.navigate(['/clientes']);
-      });
+    if (this.factura.items == undefined || this.factura.items.length == 0) {
+      this.autocompleteControl.setErrors({ 'invalid': true });
+    }
+    if (facturaForm.form.valid && !(this.factura.items == undefined) && this.factura.items.length > 0) {
+      this.facturaService.create(this.factura)
+        .subscribe((resp: Factura) => {
+          Swal.fire(this.titulo, `Factura ${resp.descripcion} creada con éxito!`, 'success');
+          console.log('Factura Guardada....', resp);
+          this.router.navigate(['/clientes']);
+        });
+    }
   }
 
 }
