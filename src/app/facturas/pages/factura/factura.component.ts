@@ -119,4 +119,16 @@ export class FacturaComponent implements OnInit {
     this.factura.items = this.factura.items?.filter((item: ItemFactura) => item.producto!.id != idProducto);
   }
 
+  calcularImporte(item: ItemFactura): number {
+    return item.cantidad! * item.producto?.precio!;
+  }
+
+  calcularGranTotal(): number {
+    let total = 0;
+    this.factura.items?.forEach((item: ItemFactura) => {
+      total += this.calcularImporte(item);
+    });
+    return total;
+  }
+
 }

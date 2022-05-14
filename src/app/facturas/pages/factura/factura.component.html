@@ -35,7 +35,10 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
-            <div class="mb-3">
+            <div *ngIf="(factura.items == undefined) || factura.items.length == 0" class="alert alert-info my-4">
+                No hay items asignadas para la factura. Debe agregar almenos una!
+            </div>
+            <div *ngIf="factura.items && !(factura.items?.length == 0)" class="mb-3">
                 <table class="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
@@ -53,10 +56,19 @@
                             <td><input type="number" [value]="item.cantidad"
                                     (change)="actualizarCantidad(item.producto!.id!, $event)" class="form-control"
                                     aria-label="Cantidad"></td>
-                            <td>{{ item.cantidad! * item.producto?.precio! }}</td>
-                            <td><button type="button" (click)="eliminarItem(item.producto!.id!)" class="btn btn-danger btn-sm">x</button></td>
+                            <td>{{ calcularImporte(item) }}</td>
+                            <td><button type="button" (click)="eliminarItem(item.producto!.id!)"
+                                    class="btn btn-danger btn-sm">x</button></td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-end">Gran total</th>
+                            <th>
+                                <span class="badge bg-secondary">{{ calcularGranTotal() }}</span>
+                            </th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
             <button type="submit" class="btn btn-success">Crear factura</button>
