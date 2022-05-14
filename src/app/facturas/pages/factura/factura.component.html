@@ -43,6 +43,7 @@
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Total</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,7 @@
                                     (change)="actualizarCantidad(item.producto!.id!, $event)" class="form-control"
                                     aria-label="Cantidad"></td>
                             <td>{{ item.cantidad! * item.producto?.precio! }}</td>
+                            <td><button type="button" (click)="eliminarItem(item.producto!.id!)" class="btn btn-danger btn-sm">x</button></td>
                         </tr>
                     </tbody>
                 </table>
