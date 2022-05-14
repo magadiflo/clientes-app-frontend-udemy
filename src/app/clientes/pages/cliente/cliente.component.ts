@@ -48,7 +48,7 @@ export class ClienteComponent implements OnInit {
   }
 
   create(): void {
-    console.log(this.cliente); 
+    console.log(this.cliente);
     this.validarCampos();
     this.clienteService.create(this.cliente)
       .subscribe({
@@ -72,7 +72,9 @@ export class ClienteComponent implements OnInit {
   }
 
   update(): void {
-    console.log(this.cliente);  
+    console.log(this.cliente);
+    //Para que no haya problemas en la BD, lo que se quiere aquí es actualizar los datos del cliente y no de la Factura, por eso lo eliminamos
+    this.cliente.facturas = undefined;
     this.validarCampos();
     this.clienteService.update(this.cliente)
       .subscribe({
@@ -89,6 +91,7 @@ export class ClienteComponent implements OnInit {
         },
         error: e => {
           this.errores = e.error.errors as string[];
+          console.log(e);
           console.log('Código del error desde el backend ' + e.status);
           console.log(this.errores);
         }
@@ -110,7 +113,7 @@ export class ClienteComponent implements OnInit {
   }
 
   compararRegion(o1: Region, o2: Region): boolean {
-    if (o1 === undefined && o2 ===  undefined) return true;
+    if (o1 === undefined && o2 === undefined) return true;
     return o1 == null || o2 == null ? false : o1.id === o2.id;
   }
 
